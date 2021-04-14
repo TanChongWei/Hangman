@@ -18,9 +18,9 @@ class Hangman extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { 
-      nWrong: 0, 
-      guessed: new Set(), 
+    this.state = {
+      nWrong: 0,
+      guessed: new Set(),
       answer: randomWord(),
       isWinner: false
     };
@@ -49,15 +49,15 @@ class Hangman extends Component {
     this.setState(st => ({
       guessed: st.guessed.add(ltr),
       nWrong: st.nWrong + (st.answer.includes(ltr) ? 0 : 1),
-      isWinner : this.determineWin()
+      isWinner: this.determineWin()
     }));
   }
 
-  determineWinn() {
+  determineWin() {
     return this.state.answer
       .split("")
-      .every(ltr => 
-      (this.state.guessed.has(ltr))
+      .every(ltr =>
+        (this.state.guessed.has(ltr)))
   }
 
   /** generateButtons: return array of letter buttons to render */
@@ -67,7 +67,12 @@ class Hangman extends Component {
         key={ltr}
         value={ltr}
         onClick={this.handleGuess}
-        disabled={this.state.guessed.has(ltr) || this.state.nWrong === this.props.maxWrong}
+        disabled=
+        {
+          this.state.guessed.has(ltr) ||
+          this.state.nWrong === this.props.maxWrong ||
+          this.state.isWinner
+        }
       >
         {ltr}
       </button>
@@ -96,7 +101,11 @@ class Hangman extends Component {
       <div className='Hangman'>
         <h1>Hangman</h1>
         <img src={this.props.images[this.state.nWrong] || this.props.images[5]} alt={`${this.state.nWrong} wrong guesses`} />
-        <p className='Hangman-word'>{this.guessedWord()}</p>
+        {
+          this.state.isWinner
+            ? <p className="Hangman-word">You Win!</p>
+            : <p className='Hangman-word'>{this.guessedWord()}</p>
+        }
         <p className='Hangman-btns'>{this.generateButtons()}</p>
         {
           maxGuesses
