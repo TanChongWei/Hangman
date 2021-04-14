@@ -18,7 +18,12 @@ class Hangman extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { nWrong: 0, guessed: new Set(), answer: randomWord() };
+    this.state = { 
+      nWrong: 0, 
+      guessed: new Set(), 
+      answer: randomWord(),
+      isWinner: false
+    };
     this.handleGuess = this.handleGuess.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
@@ -43,8 +48,16 @@ class Hangman extends Component {
     let ltr = evt.target.value;
     this.setState(st => ({
       guessed: st.guessed.add(ltr),
-      nWrong: st.nWrong + (st.answer.includes(ltr) ? 0 : 1)
+      nWrong: st.nWrong + (st.answer.includes(ltr) ? 0 : 1),
+      isWinner : this.determineWin()
     }));
+  }
+
+  determineWinn() {
+    return this.state.answer
+      .split("")
+      .every(ltr => 
+      (this.state.guessed.has(ltr))
   }
 
   /** generateButtons: return array of letter buttons to render */
