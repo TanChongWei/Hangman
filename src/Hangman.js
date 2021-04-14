@@ -62,12 +62,10 @@ class Hangman extends Component {
   }
 
   handleClick(e) {
-    console.log("restarting!")
     this.restart();
   }
 
   restart() {
-    console.log("inside restart!")
     this.setState(curState => {
       const word = randomWord();
       return {
@@ -84,11 +82,7 @@ class Hangman extends Component {
     return (
       <div className='Hangman'>
         <h1>Hangman</h1>
-        {
-          maxGuesses
-            ? <img src={this.props.images[5]} alt={`${this.state.nWrong} wrong guesses`} />
-            : <img src={this.props.images[this.state.nWrong]} alt={`${this.state.nWrong} wrong guesses`} />
-        }
+        <img src={this.props.images[this.state.nWrong] || this.props.images[5]} alt={`${this.state.nWrong} wrong guesses`} />
         <p className='Hangman-word'>{this.guessedWord()}</p>
         <p className='Hangman-btns'>{this.generateButtons()}</p>
         {
